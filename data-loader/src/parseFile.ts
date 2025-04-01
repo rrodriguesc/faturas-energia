@@ -3,68 +3,71 @@ import pdf from "pdf-parse";
 
 import { Fatura } from "./models/Fatura";
 
-const getNClient = (lines: string[]) => {
-  const lineIdx = lines.findIndex((line) => line.includes("Nº DO CLIENTE"));
+const getByLine = (lines: string[], initialText: string) => {
+  const lineIdx = lines.findIndex((line) => line.includes(initialText));
   if (lineIdx === -1) {
-    throw new Error("Could not find the client number identifier");
+    throw new Error(`Could not find using identifier: ${initialText}`);
   }
   return lines[lineIdx + 1].trim().split(" ")[0];
 };
 
-const getMesReferencia = (lines: string[]) => {
-  const lineIdx = lines.findIndex((line) => line.includes("Referente a"));
-  if (lineIdx === -1) {
-    throw new Error("Could not find the month reference identifier");
-  }
-  return lines[lineIdx + 1].trim().split(" ")[0];
-};
-
-const getEnergiaEletrica = (text: string) => {
+const getQtdValorByRegex = (text: string, initialText: string) => {
   const re = new RegExp(
-    "Energia Elétrica\\s*kWh\\s*(\\d+)\\s*(?:[\\d,]+)\\s*([\\d,]+)",
+    `${initialText}\\s*kWh\\s*(\\d+)\\s*(?:[\\d,]+)\\s*([\\d,]+)`,
     "gm"
   );
   const res = re.exec(text);
 
+  if (res.length < 2) {
+    throw new Error(
+      `Could not define both Quantity and Value for: ${initialText}`
+    );
+  }
+
   return {
-    qtdEnergiaEletrica: res[1],
-    valorEnergiaEletrica: res[2],
+    qtd: parseInt(res[1]),
+    valor: parseFloat(res[2].replace(",", ".")),
+  };
+};
+
+const getNClient = (lines: string[]) => getByLine(lines, "Nº DO CLIENTE");
+
+const getMesReferencia = (lines: string[]) => getByLine(lines, "Referente a");
+
+const getEnergiaEletrica = (text: string) => {
+  const { qtd, valor } = getQtdValorByRegex(text, "Energia Elétrica");
+
+  return {
+    qtdEnergiaEletrica: qtd,
+    valorEnergiaEletrica: valor,
   };
 };
 
 const getEnergiaSCEEE = (text: string) => {
-  const re = new RegExp(
-    "Energia SCEE s/ ICMS\\s*kWh\\s*(\\d+)\\s*(?:[\\d,]+)\\s*([\\d,]+)",
-    "gm"
-  );
-  const res = re.exec(text);
+  const { qtd, valor } = getQtdValorByRegex(text, "Energia SCEE s/ ICMS");
 
   return {
-    qtdEnergiaSCEEE: res[1],
-    valorEnergiaSCEEE: res[2],
+    qtdEnergiaSCEEE: qtd,
+    valorEnergiaSCEEE: valor,
   };
 };
 
 const getEnergiaCompensada = (text: string) => {
-  const re = new RegExp(
-    "Energia compensada GD I\\s*kWh\\s*(\\d+)\\s*(?:[\\d,]+)\\s*([\\d,]+)",
-    "gm"
-  );
-  const res = re.exec(text);
+  const { qtd, valor } = getQtdValorByRegex(text, "Energia compensada GD I");
 
   return {
-    qtdEnergiaCompensada: res[1],
-    valorEnergiaCompensada: res[2],
+    qtdEnergiaCompensada: qtd,
+    valorEnergiaCompensada: valor,
   };
 };
 
 const getContribuicaoMunicipal = (text: string) => {
   const re = new RegExp("Contrib Ilum Publica Municipal\\s*([\\d,]+)", "gm");
   const res = re.exec(text);
-  return res[1];
+  return parseFloat(res[1].replace(",", "."));
 };
 
-const parseFile = async (path: string): Fatura => {
+const parseFile = async (path: string): Promise<Fatura> => {
   let dataBuffer = fs.readFileSync(path);
 
   const data = await pdf(dataBuffer);
