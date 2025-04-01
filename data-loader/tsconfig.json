@@ -6,6 +6,8 @@
         "moduleResolution": "node",
         "sourceMap": true,
         "outDir": "out",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
         "typeRoots": [
             "./node_modules/@types"
         ]

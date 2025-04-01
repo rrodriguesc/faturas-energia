@@ -95,6 +95,4 @@ const parseFile = async (path: string): Promise<Fatura> => {
   };
 };
 
-parseFile("./Faturas/Instalação_ 3001116735/3001116735-01-2024.pdf");
-
 export default parseFile;

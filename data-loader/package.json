@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "loadFile": "node tsc && node ./out/index.js",
+    "build": "npx tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -15,8 +15,15 @@
     "@types/pdf-parse": "^1.1.4",
     "typescript": "^5.8.2"
   },
+  "bin": {
+    "loadFile": "./out/index.js"
+  },
   "dependencies": {
     "@types/node": "^22.13.16",
-    "pdf-parse": "^1.1.1"
+    "commander": "^13.1.0",
+    "pdf-parse": "^1.1.1",
+    "pg": "^8.14.1",
+    "reflect-metadata": "^0.2.2",
+    "typeorm": "^0.3.21"
   }
 }
