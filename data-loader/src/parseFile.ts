@@ -13,12 +13,12 @@ const getByLine = (lines: string[], initialText: string) => {
 
 const getQtdValorByRegex = (text: string, initialText: string) => {
   const re = new RegExp(
-    `${initialText}\\s*kWh\\s*(\\d+)\\s*(?:[\\d,]+)\\s*([\\d,]+)`,
+    `${initialText}\\s*kWh\\s*(\\d+)\\s*(?:[\\d,.]+)\\s*([\\d,.]+)`,
     "gm"
   );
   const res = re.exec(text);
 
-  if (res.length < 2) {
+  if (!res || res.length < 2) {
     throw new Error(
       `Could not define both Quantity and Value for: ${initialText}`
     );
