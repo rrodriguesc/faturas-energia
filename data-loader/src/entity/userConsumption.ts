@@ -11,36 +11,36 @@ export class UserConsumption {
   @Column()
   mesReferencia: string;
 
-  @Column()
+  @Column("float")
   qtdEnergiaEletrica: number;
 
-  @Column()
+  @Column("float")
   valorEnergiaEletrica: number;
 
-  @Column()
+  @Column("float")
   qtdEnergiaSCEEE: number;
 
-  @Column()
+  @Column("float")
   valorEnergiaSCEEE: number;
 
-  @Column()
+  @Column("float")
   qtdEnergiaCompensada: number;
 
-  @Column()
+  @Column("float")
   valorEnergiaCompensada: number;
 
-  @Column()
+  @Column("float")
   contribuicaoMunicipal: number;
 
-  @Column()
+  @Column("float")
   consumoEnergiaEletrica: number;
 
-  @Column()
+  @Column("float")
   energiaCompensada: number;
 
-  @Column()
+  @Column("float")
   valorTotalSemGD: number;
 
-  @Column()
+  @Column("float")
   economiaGD: number;
 }
