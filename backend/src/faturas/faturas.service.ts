@@ -1,9 +1,16 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, LessThanOrEqual, MoreThanOrEqual, Between } from 'typeorm';
 import { CreateFaturaDto } from './dto/create-fatura.dto';
 import { UpdateFaturaDto } from './dto/update-fatura.dto';
 import { Fatura } from './entities/fatura.entity';
+
+const parseDate = (date?: string): Date | undefined => {
+  if (!date) {
+    return undefined;
+  }
+  return new Date(Date.parse(date));
+};
 
 const buildFatura = (params: CreateFaturaDto) => {
   const fatura = new Fatura();
@@ -60,5 +67,27 @@ export class FaturasService {
 
   async remove(id: number) {
     await this.faturaRepository.delete(id);
+  }
+
+  findByCliente(nCliente: string, startDate?: string, endDate?: string) {
+    const parsedStartDate = parseDate(startDate);
+    const parsedEndDate = parseDate(endDate);
+    const extraWhere =
+      parsedStartDate && parsedEndDate
+        ? {
+            mesReferencia: Between(parsedStartDate, parsedEndDate),
+          }
+        : parsedStartDate
+          ? { mesReferencia: MoreThanOrEqual(parsedStartDate) }
+          : parsedEndDate
+            ? { mesReferencia: LessThanOrEqual(parsedEndDate) }
+            : {};
+
+    return this.faturaRepository.find({
+      where: {
+        nCliente,
+        ...extraWhere,
+      },
+    });
   }
 }

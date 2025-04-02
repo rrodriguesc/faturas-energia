@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+} from '@nestjs/common';
 import { FaturasService } from './faturas.service';
 import { CreateFaturaDto } from './dto/create-fatura.dto';
 import { UpdateFaturaDto } from './dto/update-fatura.dto';
@@ -30,5 +39,14 @@ export class FaturasController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.faturasService.remove(+id);
+  }
+
+  @Get('/cliente/:nCliente')
+  findByCliente(
+    @Param('nCliente') nCliente: string,
+    @Query('startDate') startDate?: string,
+    @Query('endDate') endDate?: string,
+  ) {
+    return this.faturasService.findByCliente(nCliente, startDate, endDate);
   }
 }
