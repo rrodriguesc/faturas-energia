@@ -3,8 +3,22 @@
 import { Command } from "commander";
 import fs from "fs";
 import parseFile from "./parseFile";
-import { AppDataSource } from "./data-source";
-import { Fatura } from "./entity/fatura";
+import { FaturaDoc } from "./models/FaturaDoc";
+import { config } from "dotenv";
+
+config();
+
+const SAVE_URL = process.env.SAVE_URL || "http://localhost:3000/faturas";
+
+const save = async (fatura: FaturaDoc) =>
+  fetch(SAVE_URL, {
+    method: "POST",
+    body: JSON.stringify(fatura),
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  });
 
 interface Options {
   directory?: string;
@@ -48,37 +62,22 @@ const options = program.opts<Options>();
 
 const files = getFiles(options);
 
-Promise.all(files.map((f) => parseFile(f))).then((faturas) => {
-  const consumptions = faturas.map((fatura) => {
-    const consumption = new Fatura();
-    consumption.nCliente = fatura.nCliente;
-    consumption.mesReferencia = fatura.mesReferencia;
-    consumption.qtdEnergiaEletrica = fatura.qtdEnergiaEletrica;
-    consumption.valorEnergiaEletrica = fatura.valorEnergiaEletrica;
-    consumption.qtdEnergiaSCEEE = fatura.qtdEnergiaSCEEE;
-    consumption.valorEnergiaSCEEE = fatura.valorEnergiaSCEEE;
-    consumption.qtdEnergiaCompensada = fatura.qtdEnergiaCompensada;
-    consumption.valorEnergiaCompensada = fatura.valorEnergiaCompensada;
-    consumption.contribuicaoMunicipal = fatura.contribuicaoMunicipal;
-    consumption.consumoEnergiaEletrica =
-      fatura.qtdEnergiaEletrica + fatura.qtdEnergiaSCEEE;
-    consumption.energiaCompensada = fatura.qtdEnergiaCompensada;
-    consumption.valorTotalSemGD =
-      fatura.valorEnergiaEletrica +
-      fatura.valorEnergiaSCEEE +
-      fatura.contribuicaoMunicipal;
-    consumption.economiaGD = fatura.valorEnergiaCompensada;
-
-    return consumption;
-  });
-
-  if (options.save) {
-    AppDataSource.initialize()
-      .then(async () => {
-        const FaturasRepository = AppDataSource.getRepository(Fatura);
-        await FaturasRepository.save(consumptions);
-        console.log(`${consumptions.length} faturas saved`);
-      })
-      .catch((error) => console.log(error));
+Promise.all(files.map((path) => parseFile(path))).then((faturas) => {
+  console.log(faturas.length, " Items parsed");
+  if (!options.save) {
+    console.log(faturas);
+    return;
   }
+  Promise.all(faturas.map((fatura) => save(fatura)))
+    .then((res) => {
+      const errors = res.filter((r) => r.status !== 201);
+      if (errors.length > 0) {
+        const distinctErrors = [...new Set(errors)];
+        console.error(`Error to save ${errors.length} items `, distinctErrors);
+      }
+      console.log(faturas.length - errors.length, " Items saved");
+    })
+    .catch((err) => {
+      console.error("Error saving ", err);
+    });
 });
