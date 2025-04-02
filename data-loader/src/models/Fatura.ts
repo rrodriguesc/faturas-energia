@@ -1,6 +1,6 @@
 export interface Fatura {
   nCliente: string;
-  mesReferencia: string;
+  mesReferencia: Date;
   qtdEnergiaEletrica: number;
   valorEnergiaEletrica: number;
   qtdEnergiaSCEEE: number;

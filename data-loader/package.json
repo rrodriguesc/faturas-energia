@@ -21,6 +21,7 @@
   "dependencies": {
     "@types/node": "^22.13.16",
     "commander": "^13.1.0",
+    "date-fns": "^4.1.0",
     "pdf-parse": "^1.1.1",
     "pg": "^8.14.1",
     "reflect-metadata": "^0.2.2",

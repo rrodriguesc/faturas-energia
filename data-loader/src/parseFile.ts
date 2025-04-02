@@ -1,5 +1,7 @@
 import fs from "fs";
 import pdf from "pdf-parse";
+import { parse } from "date-fns";
+import { ptBR } from "date-fns/locale";
 
 import { Fatura } from "./models/Fatura";
 
@@ -32,7 +34,10 @@ const getQtdValorByRegex = (text: string, initialText: string) => {
 
 const getNClient = (lines: string[]) => getByLine(lines, "Nº DO CLIENTE");
 
-const getMesReferencia = (lines: string[]) => getByLine(lines, "Referente a");
+const getMesReferencia = (lines: string[]) => {
+  const dateStr = getByLine(lines, "Referente a");
+  return parse(dateStr, "MMM/yyyy", new Date(), { locale: ptBR });
+};
 
 const getEnergiaEletrica = (text: string) => {
   const { qtd, valor } = getQtdValorByRegex(text, "Energia Elétrica");

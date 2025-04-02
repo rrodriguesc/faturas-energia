@@ -8,8 +8,8 @@ export class UserConsumption {
   @Column()
   nCliente: string;
 
-  @Column()
-  mesReferencia: string;
+  @Column({ type: "timestamptz" })
+  mesReferencia: Date;
 
   @Column("float")
   qtdEnergiaEletrica: number;
