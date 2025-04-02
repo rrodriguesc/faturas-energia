@@ -4,7 +4,7 @@ import { Command } from "commander";
 import fs from "fs";
 import parseFile from "./parseFile";
 import { AppDataSource } from "./data-source";
-import { UserConsumption } from "./entity/userConsumption";
+import { Fatura } from "./entity/fatura";
 
 interface Options {
   directory?: string;
@@ -50,7 +50,7 @@ const files = getFiles(options);
 
 Promise.all(files.map((f) => parseFile(f))).then((faturas) => {
   const consumptions = faturas.map((fatura) => {
-    const consumption = new UserConsumption();
+    const consumption = new Fatura();
     consumption.nCliente = fatura.nCliente;
     consumption.mesReferencia = fatura.mesReferencia;
     consumption.qtdEnergiaEletrica = fatura.qtdEnergiaEletrica;
@@ -72,16 +72,12 @@ Promise.all(files.map((f) => parseFile(f))).then((faturas) => {
     return consumption;
   });
 
-  console.log("Parse result: ", consumptions);
-
   if (options.save) {
     AppDataSource.initialize()
       .then(async () => {
-        const UserConsumptionRepository =
-          AppDataSource.getRepository(UserConsumption);
-        await UserConsumptionRepository.save(consumptions);
-        const d = await UserConsumptionRepository.find();
-        console.log(d);
+        const FaturasRepository = AppDataSource.getRepository(Fatura);
+        await FaturasRepository.save(consumptions);
+        console.log(`${consumptions.length} faturas saved`);
       })
       .catch((error) => console.log(error));
   }

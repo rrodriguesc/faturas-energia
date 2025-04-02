@@ -1,11 +1,8 @@
-export interface Fatura {
-  nCliente: string;
-  mesReferencia: Date;
-  qtdEnergiaEletrica: number;
-  valorEnergiaEletrica: number;
-  qtdEnergiaSCEEE: number;
-  valorEnergiaSCEEE: number;
-  qtdEnergiaCompensada: number;
-  valorEnergiaCompensada: number;
-  contribuicaoMunicipal: number;
+import { FaturaDoc } from "./FaturaDoc";
+
+export interface Fatura extends FaturaDoc {
+  consumoEnergiaEletrica: number;
+  energiaCompensada: number;
+  valorTotalSemGD: number;
+  economiaGD: number;
 }

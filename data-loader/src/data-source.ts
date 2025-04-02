@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import { DataSource } from "typeorm";
-import { UserConsumption } from "./entity/userConsumption";
+import { Fatura } from "./entity/fatura";
 
 require("dotenv").config();
 
@@ -11,6 +11,6 @@ export const AppDataSource = new DataSource({
   username: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
   synchronize: true,
-  logging: true,
-  entities: [UserConsumption],
+  logging: false,
+  entities: [Fatura],
 });

@@ -2,8 +2,7 @@ import fs from "fs";
 import pdf from "pdf-parse";
 import { parse } from "date-fns";
 import { ptBR } from "date-fns/locale";
-
-import { Fatura } from "./models/Fatura";
+import { FaturaDoc } from "./models/FaturaDoc";
 
 const getByLine = (lines: string[], initialText: string) => {
   const lineIdx = lines.findIndex((line) => line.includes(initialText));
@@ -72,7 +71,7 @@ const getContribuicaoMunicipal = (text: string) => {
   return parseFloat(res[1].replace(",", "."));
 };
 
-const parseFile = async (path: string): Promise<Fatura> => {
+const parseFile = async (path: string): Promise<FaturaDoc> => {
   let dataBuffer = fs.readFileSync(path);
 
   const data = await pdf(dataBuffer);
