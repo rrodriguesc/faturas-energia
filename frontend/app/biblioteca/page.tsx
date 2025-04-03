@@ -8,7 +8,7 @@ import { Fatura, getFaturas } from "@/services/faturas";
 import { useEffect, useMemo, useState } from "react";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
-const Faturas = () => {
+const Biblioteca = () => {
   const [data, setData] = useState<Fatura[]>();
   const [selectedYear, setSelectedYear] = useState<number>();
 
@@ -34,7 +34,7 @@ const Faturas = () => {
         <div className="flex items-center gap-2 px-4 text-xl">
           <SidebarTrigger className="-ml-1" />
           <Separator orientation="vertical" className="mr-2 h-4" />
-          Faturas
+          Biblioteca
         </div>
       </header>
       <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
@@ -64,4 +64,4 @@ const Faturas = () => {
   );
 };
 
-export default Faturas;
+export default Biblioteca;

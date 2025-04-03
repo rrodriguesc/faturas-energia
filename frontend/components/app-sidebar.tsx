@@ -21,8 +21,8 @@ const data = {
       icon: LayoutDashboardIcon,
     },
     {
-      title: "Faturas",
-      url: "/faturas",
+      title: "Biblioteca",
+      url: "/biblioteca",
       icon: ListIcon,
     },
   ],
