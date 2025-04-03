@@ -1,6 +1,6 @@
 "use client";
 
-import { DashboardFilter } from "@/components/dashboard";
+import { DashboardFilter, DashboardTotal } from "@/components/dashboard";
 import ReportChart from "@/components/ReportChart";
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
@@ -18,11 +18,21 @@ const Dashboard = () => {
       <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
         <Separator className="my-2" />
         <DashboardFilter onSubmit={(values) => console.log(values)} />
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <DashboardTotal
+            key="econsumida"
+            title="Total de energia consumida"
+            content="1"
+          />
+          <DashboardTotal
+            key="vcompensado"
+            title="Valor compensado"
+            content="1"
+          />
+        </div>
         <div className="grid auto-rows-min gap-4 md:grid-cols-2 xl:grid-cols-3">
           <ReportChart key="1" />
           <ReportChart key="2" />
-          <ReportChart key="3" />
-          <ReportChart key="4" />
         </div>
       </div>
     </div>
