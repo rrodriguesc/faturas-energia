@@ -17,8 +17,8 @@ export interface Fatura {
 
 export const getFaturasByClient = async (
   nClient: string,
-  startDate?: string,
-  endDate?: string
+  startDate?: Date,
+  endDate?: Date
 ): Promise<Fatura[]> => {
   return [
     {

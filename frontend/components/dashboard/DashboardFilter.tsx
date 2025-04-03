@@ -25,6 +25,8 @@ const formSchema = z.object({
   endDate: z.date().optional(),
 });
 
+export type FilterParams = z.infer<typeof formSchema>;
+
 export interface Props {
   onSubmit?: (values: z.infer<typeof formSchema>) => void;
 }

@@ -12,7 +12,7 @@ const DashboardTotal = (props: Props) => {
       <CardHeader>
         <CardTitle>{props.title}</CardTitle>
       </CardHeader>
-      <CardContent>{props.content}</CardContent>
+      <CardContent className="text-xl font-bold">{props.content}</CardContent>
     </Card>
   );
 };
