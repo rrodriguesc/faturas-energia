@@ -28,7 +28,7 @@ const DashboardDatePicker = (props: Props) => {
   return (
     <FormField
       control={props.control}
-      name="endDate"
+      name={props.name}
       render={({ field }) => (
         <FormItem className="flex flex-col">
           <FormLabel>{props.label}</FormLabel>

@@ -52,9 +52,7 @@ const ReportChart = (props: Props) => {
               tickLine={false}
               axisLine={false}
               tickMargin={8}
-              tickFormatter={(value) =>
-                value.toLocaleString(undefined, { minimumFractionDigits: 1 })
-              }
+              tickFormatter={(value) => value.toFixed(2)}
             />
             <ChartTooltip
               cursor={false}
@@ -77,6 +75,7 @@ const ReportChart = (props: Props) => {
                 offset={12}
                 className="fill-foreground"
                 fontSize={12}
+                formatter={(value: number) => value.toFixed(2)}
               />
             </Line>
           </LineChart>

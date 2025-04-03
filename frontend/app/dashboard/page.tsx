@@ -115,14 +115,14 @@ const Dashboard = () => {
             <DashboardTotal
               key="vtotalgd"
               title="Valor Total sem GD (R$)"
-              content={valorTotalSemGd}
+              content={valorTotalSemGd.toFixed(2)}
             />
           )}
           {economiaGd && (
             <DashboardTotal
               key="economiagd"
               title="Economia GD (R$)"
-              content={economiaGd}
+              content={economiaGd.toFixed(2)}
             />
           )}
         </div>
