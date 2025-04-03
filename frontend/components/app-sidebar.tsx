@@ -1,7 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { Factory, LayoutDashboardIcon, ListIcon } from "lucide-react";
+import { Factory, LayoutDashboardIcon, ListIcon, Home } from "lucide-react";
+import Link from "next/link";
 
 import { NavMain } from "@/components/nav-main";
 import {
@@ -15,6 +16,11 @@ import {
 
 const data = {
   navMain: [
+    {
+      title: "Página inicial",
+      url: "/",
+      icon: Home,
+    },
     {
       title: "Dashboard",
       url: "/dashboard",
@@ -38,12 +44,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               asChild
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
-              <a href="#">
+              <Link href="/">
                 <Factory className="h-5 w-5" />
                 <span className="text-base font-semibold">
                   Faturas de Energia
                 </span>
-              </a>
+              </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
