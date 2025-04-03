@@ -3,23 +3,7 @@
 import { FileText } from "lucide-react";
 import { CellContext, ColumnDef } from "@tanstack/react-table";
 import classNames from "classnames";
-
-export type Fatura = {
-  id: string;
-  nCliente: string;
-  jan?: string;
-  feb?: string;
-  mar?: string;
-  apr?: string;
-  may?: string;
-  jun?: string;
-  jul?: string;
-  aug?: string;
-  sep?: string;
-  oct?: string;
-  nov?: string;
-  dec?: string;
-};
+import { Fatura } from "@/services/faturas";
 
 const buildCell = ({ cell }: CellContext<Fatura, string | undefined>) => {
   const url = cell.getValue();

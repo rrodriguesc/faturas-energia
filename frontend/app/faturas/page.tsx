@@ -1,73 +1,32 @@
+"use client";
+
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import { Fatura, columns } from "./columns";
+import { columns } from "./columns";
 import { DataTable } from "./data-table";
+import { Fatura, getFaturas } from "@/services/faturas";
+import { useEffect, useMemo, useState } from "react";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
-async function getData(): Promise<Fatura[]> {
-  return [
-    {
-      id: "728ed52f",
-      nCliente: "123456",
-      jan: "http://localhost/faturas",
-      feb: "http://localhost/faturas",
-      mar: "http://localhost/faturas",
-      apr: "http://localhost/faturas",
-      may: "http://localhost/faturas",
-      jun: "http://localhost/faturas",
-    },
-    {
-      id: "728ed52g",
-      nCliente: "789101",
-      jan: "http://localhost/faturas",
-      feb: "http://localhost/faturas",
-      mar: "http://localhost/faturas",
-      apr: "http://localhost/faturas",
-      may: "http://localhost/faturas",
-      jun: "http://localhost/faturas",
-    },
-    {
-      id: "728ed52h",
-      nCliente: "1213114",
-      jan: "http://localhost/faturas",
-      feb: "http://localhost/faturas",
-      mar: "http://localhost/faturas",
-      apr: "http://localhost/faturas",
-      may: "http://localhost/faturas",
-      jun: "http://localhost/faturas",
-    },
-    {
-      id: "728ed52i",
-      nCliente: "123456",
-      jan: "http://localhost/faturas",
-      feb: "http://localhost/faturas",
-      mar: "http://localhost/faturas",
-      apr: "http://localhost/faturas",
-      may: "http://localhost/faturas",
-      jun: "http://localhost/faturas",
-    },
-    {
-      id: "728ed52j",
-      nCliente: "151617",
-      jan: "http://localhost/faturas",
-      feb: "http://localhost/faturas",
-      mar: "http://localhost/faturas",
-      apr: "http://localhost/faturas",
-      may: "http://localhost/faturas",
-    },
-    {
-      id: "728ed52k",
-      nCliente: "123456",
-      jan: "http://localhost/faturas",
-      feb: "http://localhost/faturas",
-      mar: "http://localhost/faturas",
-      apr: "http://localhost/faturas",
-      may: "http://localhost/faturas",
-    },
-  ];
-}
+const Faturas = () => {
+  const [data, setData] = useState<Fatura[]>();
+  const [selectedYear, setSelectedYear] = useState<number>();
 
-const Faturas = async () => {
-  const data = await getData();
+  useEffect(() => {
+    getFaturas().then((faturas) => {
+      setData(faturas);
+    });
+  }, []);
+
+  const years = useMemo(() => {
+    const allYears = data?.map((fatura) => fatura.year);
+    if (!allYears) {
+      return undefined;
+    }
+    return [...new Set(allYears)].toSorted((a, b) => a - b);
+  }, [data]);
+
+  useEffect(() => years && setSelectedYear(years[0]), [years]);
 
   return (
     <div>
@@ -78,9 +37,26 @@ const Faturas = async () => {
           Faturas
         </div>
       </header>
-      <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-        <DataTable columns={columns} data={data} />
-      </div>
+      {data && selectedYear && (
+        <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+          <ToggleGroup
+            className="w-full"
+            type="single"
+            value={`${selectedYear}`}
+            onValueChange={(value) => setSelectedYear(parseInt(value))}
+          >
+            {years?.map((year) => (
+              <ToggleGroupItem key={year} value={`${year}`}>
+                {year}
+              </ToggleGroupItem>
+            ))}
+          </ToggleGroup>
+          <DataTable
+            columns={columns}
+            data={data.filter((fatura) => fatura.year === selectedYear)}
+          />
+        </div>
+      )}
     </div>
   );
 };
