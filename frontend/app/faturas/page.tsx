@@ -1,18 +1,68 @@
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import { Payment, columns } from "./columns";
+import { Fatura, columns } from "./columns";
 import { DataTable } from "./data-table";
 
-async function getData(): Promise<Payment[]> {
-  // Fetch data from your API here.
+async function getData(): Promise<Fatura[]> {
   return [
     {
       id: "728ed52f",
-      amount: 100,
-      status: "pending",
-      email: "m@example.com",
+      nCliente: "123456",
+      jan: "http://localhost/faturas",
+      feb: "http://localhost/faturas",
+      mar: "http://localhost/faturas",
+      apr: "http://localhost/faturas",
+      may: "http://localhost/faturas",
+      jun: "http://localhost/faturas",
     },
-    // ...
+    {
+      id: "728ed52g",
+      nCliente: "789101",
+      jan: "http://localhost/faturas",
+      feb: "http://localhost/faturas",
+      mar: "http://localhost/faturas",
+      apr: "http://localhost/faturas",
+      may: "http://localhost/faturas",
+      jun: "http://localhost/faturas",
+    },
+    {
+      id: "728ed52h",
+      nCliente: "1213114",
+      jan: "http://localhost/faturas",
+      feb: "http://localhost/faturas",
+      mar: "http://localhost/faturas",
+      apr: "http://localhost/faturas",
+      may: "http://localhost/faturas",
+      jun: "http://localhost/faturas",
+    },
+    {
+      id: "728ed52i",
+      nCliente: "123456",
+      jan: "http://localhost/faturas",
+      feb: "http://localhost/faturas",
+      mar: "http://localhost/faturas",
+      apr: "http://localhost/faturas",
+      may: "http://localhost/faturas",
+      jun: "http://localhost/faturas",
+    },
+    {
+      id: "728ed52j",
+      nCliente: "151617",
+      jan: "http://localhost/faturas",
+      feb: "http://localhost/faturas",
+      mar: "http://localhost/faturas",
+      apr: "http://localhost/faturas",
+      may: "http://localhost/faturas",
+    },
+    {
+      id: "728ed52k",
+      nCliente: "123456",
+      jan: "http://localhost/faturas",
+      feb: "http://localhost/faturas",
+      mar: "http://localhost/faturas",
+      apr: "http://localhost/faturas",
+      may: "http://localhost/faturas",
+    },
   ];
 }
 
