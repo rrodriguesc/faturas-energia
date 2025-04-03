@@ -37,26 +37,29 @@ const Faturas = () => {
           Faturas
         </div>
       </header>
-      {data && selectedYear && (
-        <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-          <ToggleGroup
-            className="w-full"
-            type="single"
-            value={`${selectedYear}`}
-            onValueChange={(value) => setSelectedYear(parseInt(value))}
-          >
-            {years?.map((year) => (
-              <ToggleGroupItem key={year} value={`${year}`}>
-                {year}
-              </ToggleGroupItem>
-            ))}
-          </ToggleGroup>
-          <DataTable
-            columns={columns}
-            data={data.filter((fatura) => fatura.year === selectedYear)}
-          />
-        </div>
-      )}
+      <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+        <Separator className="my-2" />
+        {data && selectedYear && (
+          <div className="flex flex-1 flex-col gap-4">
+            <ToggleGroup
+              className="w-full"
+              type="single"
+              value={`${selectedYear}`}
+              onValueChange={(value) => setSelectedYear(parseInt(value))}
+            >
+              {years?.map((year) => (
+                <ToggleGroupItem key={year} value={`${year}`}>
+                  {year}
+                </ToggleGroupItem>
+              ))}
+            </ToggleGroup>
+            <DataTable
+              columns={columns}
+              data={data.filter((fatura) => fatura.year === selectedYear)}
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
 };
