@@ -14,6 +14,7 @@ const parseDate = (date?: string): Date | undefined => {
 
 const buildFatura = (params: CreateFaturaDto) => {
   const fatura = new Fatura();
+  fatura.url = params.url;
   fatura.nCliente = params.nCliente;
   fatura.mesReferencia = params.mesReferencia;
   fatura.qtdEnergiaEletrica = params.qtdEnergiaEletrica;
