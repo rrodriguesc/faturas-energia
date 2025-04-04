@@ -1,143 +1,74 @@
-export type Fatura = {
+import { API_DATA_URL } from "./constants";
+import { format } from "date-fns";
+
+export interface Fatura {
+  id: number;
+  nCliente: string;
+  mesReferencia: Date;
+  qtdEnergiaEletrica: number;
+  valorEnergiaEletrica: number;
+  qtdEnergiaSCEEE: number;
+  valorEnergiaSCEEE: number;
+  qtdEnergiaCompensada: number;
+  valorEnergiaCompensada: number;
+  contribuicaoMunicipal: number;
+  consumoEnergiaEletrica: number;
+  energiaCompensada: number;
+  valorTotalSemGD: number;
+  economiaGD: number;
+  url?: string;
+}
+
+export type FaturaTable = {
   id: string;
   nCliente: string;
   year: number;
-  jan?: string;
-  feb?: string;
-  mar?: string;
-  apr?: string;
-  may?: string;
-  jun?: string;
-  jul?: string;
-  aug?: string;
-  sep?: string;
-  oct?: string;
-  nov?: string;
-  dec?: string;
+  1?: string;
+  2?: string;
+  3?: string;
+  4?: string;
+  5?: string;
+  6?: string;
+  7?: string;
+  8?: string;
+  9?: string;
+  10?: string;
+  11?: string;
+  12?: string;
 };
 
-export const getFaturas = async (): Promise<Fatura[]> => {
-  return [
-    {
-      id: "728ed52f",
-      nCliente: "123456",
-      year: 2024,
-      jan: "http://localhost/faturas",
-      feb: "http://localhost/faturas",
-      mar: "http://localhost/faturas",
-      apr: "http://localhost/faturas",
-      may: "http://localhost/faturas",
-      jun: "http://localhost/faturas",
-    },
-    {
-      id: "728ed53f",
-      nCliente: "123456",
-      year: 2023,
-      jan: "http://localhost/faturas",
-      feb: "http://localhost/faturas",
-      mar: "http://localhost/faturas",
-      apr: "http://localhost/faturas",
-      may: "http://localhost/faturas",
-      jun: "http://localhost/faturas",
-      jul: "http://localhost/faturas",
-      aug: "http://localhost/faturas",
-      sep: "http://localhost/faturas",
-      oct: "http://localhost/faturas",
-      nov: "http://localhost/faturas",
-      dec: "http://localhost/faturas",
-    },
-    {
-      id: "728ed52g",
-      nCliente: "789101",
-      year: 2024,
-      jan: "http://localhost/faturas",
-      feb: "http://localhost/faturas",
-      mar: "http://localhost/faturas",
-      apr: "http://localhost/faturas",
-      may: "http://localhost/faturas",
-      jun: "http://localhost/faturas",
-    },
-    {
-      id: "728ed53h",
-      nCliente: "789101",
-      year: 2023,
-      jan: "http://localhost/faturas",
-      feb: "http://localhost/faturas",
-      mar: "http://localhost/faturas",
-      apr: "http://localhost/faturas",
-      may: "http://localhost/faturas",
-      jun: "http://localhost/faturas",
-      jul: "http://localhost/faturas",
-      aug: "http://localhost/faturas",
-      sep: "http://localhost/faturas",
-      oct: "http://localhost/faturas",
-      nov: "http://localhost/faturas",
-      dec: "http://localhost/faturas",
-    },
-    {
-      id: "728ed52i",
-      nCliente: "123456",
-      year: 2024,
-      jan: "http://localhost/faturas",
-      feb: "http://localhost/faturas",
-      mar: "http://localhost/faturas",
-      apr: "http://localhost/faturas",
-      may: "http://localhost/faturas",
-      jun: "http://localhost/faturas",
-    },
-    {
-      id: "728ed53i",
-      nCliente: "123456",
-      year: 2023,
-      jan: "http://localhost/faturas",
-      feb: "http://localhost/faturas",
-      mar: "http://localhost/faturas",
-      apr: "http://localhost/faturas",
-      may: "http://localhost/faturas",
-      jun: "http://localhost/faturas",
-      jul: "http://localhost/faturas",
-      aug: "http://localhost/faturas",
-      sep: "http://localhost/faturas",
-      oct: "http://localhost/faturas",
-      nov: "http://localhost/faturas",
-      dec: "http://localhost/faturas",
-    },
-    {
-      id: "728ed52j",
-      nCliente: "151617",
-      year: 2024,
-      jan: "http://localhost/faturas",
-      feb: "http://localhost/faturas",
-      mar: "http://localhost/faturas",
-      apr: "http://localhost/faturas",
-      may: "http://localhost/faturas",
-    },
-    {
-      id: "728ed53j",
-      nCliente: "151617",
-      year: 2023,
-      jan: "http://localhost/faturas",
-      feb: "http://localhost/faturas",
-      mar: "http://localhost/faturas",
-      apr: "http://localhost/faturas",
-      may: "http://localhost/faturas",
-      jun: "http://localhost/faturas",
-      jul: "http://localhost/faturas",
-      aug: "http://localhost/faturas",
-      sep: "http://localhost/faturas",
-      oct: "http://localhost/faturas",
-      nov: "http://localhost/faturas",
-      dec: "http://localhost/faturas",
-    },
-    {
-      id: "728ed52k",
-      nCliente: "123456",
-      year: 2024,
-      jan: "http://localhost/faturas",
-      feb: "http://localhost/faturas",
-      mar: "http://localhost/faturas",
-      apr: "http://localhost/faturas",
-      may: "http://localhost/faturas",
-    },
-  ];
+export const getFaturasTable = async (): Promise<FaturaTable[]> =>
+  fetch(`${API_DATA_URL}/faturas`)
+    .then((res) => res.json())
+    .then((data: Fatura[]) => {
+      const faturas = data.map((fatura) => ({
+        nCliente: fatura.nCliente,
+        year: new Date(fatura.mesReferencia).getFullYear(),
+        [new Date(fatura.mesReferencia).getMonth() + 1]: fatura.url,
+      }));
+      const mapFaturas: Record<string, FaturaTable> = {};
+      faturas.forEach((fatura) => {
+        const key = `${fatura.nCliente}:${fatura.year}`;
+        mapFaturas[key] = { ...mapFaturas[key], ...fatura };
+      });
+      return Object.values(mapFaturas);
+    });
+
+export const getFaturasByClient = async (
+  nClient: string,
+  startDate?: Date,
+  endDate?: Date
+): Promise<Fatura[]> => {
+  const params = new URLSearchParams({
+    startDate: startDate ? format(startDate, "yyyy-MM-dd") : "",
+    endDate: endDate ? format(endDate, "yyyy-MM-dd") : "",
+  }).toString();
+  return fetch(`${API_DATA_URL}/faturas/cliente/${nClient}?${params}`)
+    .then((res) => res.json())
+    .then((data: Fatura[]) =>
+      data.map((fatura) => ({
+        ...fatura,
+        mesReferencia: new Date(fatura.mesReferencia),
+      }))
+    );
 };

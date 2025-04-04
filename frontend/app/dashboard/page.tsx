@@ -9,7 +9,7 @@ import ResultadosEnergiaChart from "@/components/ResultadosEnergiaChart";
 import ResultadosFinanceirosChart from "@/components/ResultadosFinanceirosChart";
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import { Fatura, getFaturasByClient } from "@/services/dasboard";
+import { Fatura, getFaturasByClient } from "@/services/faturas";
 import { useEffect, useMemo, useState } from "react";
 
 const Dashboard = () => {

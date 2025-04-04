@@ -3,9 +3,9 @@
 import { FileText } from "lucide-react";
 import { CellContext, ColumnDef } from "@tanstack/react-table";
 import classNames from "classnames";
-import { Fatura } from "@/services/faturas";
+import { FaturaTable } from "@/services/faturas";
 
-const buildCell = ({ cell }: CellContext<Fatura, string | undefined>) => {
+const buildCell = ({ cell }: CellContext<FaturaTable, string | undefined>) => {
   const url = cell.getValue();
   return (
     <a
@@ -18,21 +18,21 @@ const buildCell = ({ cell }: CellContext<Fatura, string | undefined>) => {
   );
 };
 
-export const columns: ColumnDef<Fatura, string | undefined>[] = [
+export const columns: ColumnDef<FaturaTable, string | undefined>[] = [
   {
     accessorKey: "nCliente",
     header: "Número do Cliente",
   },
-  { accessorKey: "jan", header: "JAN", cell: buildCell },
-  { accessorKey: "feb", header: "FEV", cell: buildCell },
-  { accessorKey: "mar", header: "MAR", cell: buildCell },
-  { accessorKey: "apr", header: "ABR", cell: buildCell },
-  { accessorKey: "may", header: "MAI", cell: buildCell },
-  { accessorKey: "jun", header: "JUN", cell: buildCell },
-  { accessorKey: "jul", header: "JUL", cell: buildCell },
-  { accessorKey: "aug", header: "AGO", cell: buildCell },
-  { accessorKey: "sep", header: "SET", cell: buildCell },
-  { accessorKey: "oct", header: "OUT", cell: buildCell },
-  { accessorKey: "nov", header: "NOV", cell: buildCell },
-  { accessorKey: "dec", header: "DEZ", cell: buildCell },
+  { accessorKey: "1", header: "JAN", cell: buildCell },
+  { accessorKey: "2", header: "FEV", cell: buildCell },
+  { accessorKey: "3", header: "MAR", cell: buildCell },
+  { accessorKey: "4", header: "ABR", cell: buildCell },
+  { accessorKey: "5", header: "MAI", cell: buildCell },
+  { accessorKey: "6", header: "JUN", cell: buildCell },
+  { accessorKey: "7", header: "JUL", cell: buildCell },
+  { accessorKey: "8", header: "AGO", cell: buildCell },
+  { accessorKey: "9", header: "SET", cell: buildCell },
+  { accessorKey: "10", header: "OUT", cell: buildCell },
+  { accessorKey: "11", header: "NOV", cell: buildCell },
+  { accessorKey: "12", header: "DEZ", cell: buildCell },
 ];

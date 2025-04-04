@@ -4,16 +4,16 @@ import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { columns } from "./columns";
 import { DataTable } from "./data-table";
-import { Fatura, getFaturas } from "@/services/faturas";
+import { FaturaTable, getFaturasTable } from "@/services/faturas";
 import { useEffect, useMemo, useState } from "react";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
 const Biblioteca = () => {
-  const [data, setData] = useState<Fatura[]>();
+  const [data, setData] = useState<FaturaTable[]>();
   const [selectedYear, setSelectedYear] = useState<number>();
 
   useEffect(() => {
-    getFaturas().then((faturas) => {
+    getFaturasTable().then((faturas) => {
       setData(faturas);
     });
   }, []);
