@@ -43,4 +43,7 @@ export class Fatura {
 
   @Column('float')
   economiaGD: number;
+
+  @Column()
+  url: string;
 }

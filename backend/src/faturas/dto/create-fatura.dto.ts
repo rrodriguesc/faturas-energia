@@ -8,4 +8,5 @@ export class CreateFaturaDto {
   qtdEnergiaCompensada: number;
   valorEnergiaCompensada: number;
   contribuicaoMunicipal: number;
+  url: string;
 }
