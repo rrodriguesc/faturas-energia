@@ -4,35 +4,13 @@ import { Repository, LessThanOrEqual, MoreThanOrEqual, Between } from 'typeorm';
 import { CreateFaturaDto } from './dto/create-fatura.dto';
 import { UpdateFaturaDto } from './dto/update-fatura.dto';
 import { Fatura } from './entities/fatura.entity';
+import { buildFatura } from '../utils/build-fatura';
 
 const parseDate = (date?: string): Date | undefined => {
   if (!date) {
     return undefined;
   }
   return new Date(Date.parse(date));
-};
-
-const buildFatura = (params: CreateFaturaDto) => {
-  const fatura = new Fatura();
-  fatura.url = params.url;
-  fatura.nCliente = params.nCliente;
-  fatura.mesReferencia = params.mesReferencia;
-  fatura.qtdEnergiaEletrica = params.qtdEnergiaEletrica;
-  fatura.valorEnergiaEletrica = params.valorEnergiaEletrica;
-  fatura.qtdEnergiaSCEEE = params.qtdEnergiaSCEEE;
-  fatura.valorEnergiaSCEEE = params.valorEnergiaSCEEE;
-  fatura.qtdEnergiaCompensada = params.qtdEnergiaCompensada;
-  fatura.valorEnergiaCompensada = params.valorEnergiaCompensada;
-  fatura.contribuicaoMunicipal = params.contribuicaoMunicipal;
-  fatura.consumoEnergiaEletrica =
-    params.qtdEnergiaEletrica + params.qtdEnergiaSCEEE;
-  fatura.energiaCompensada = params.qtdEnergiaCompensada;
-  fatura.valorTotalSemGD =
-    params.valorEnergiaEletrica +
-    params.valorEnergiaSCEEE +
-    params.contribuicaoMunicipal;
-  fatura.economiaGD = params.valorEnergiaCompensada;
-  return fatura;
 };
 
 @Injectable()
