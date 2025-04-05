@@ -51,8 +51,13 @@ export class FaturasService {
     return this.faturaRepository.find();
   }
 
-  findOne(id: number) {
-    return this.faturaRepository.findOneBy({ id });
+  async findOne(id: number) {
+    return this.faturaRepository.findOneBy({ id }).then((res) => {
+      if (!res) {
+        throw new NotFoundException('Could not find using these filter');
+      }
+      return res;
+    });
   }
 
   async update(id: number, updateFaturaDto: UpdateFaturaDto) {
@@ -70,7 +75,7 @@ export class FaturasService {
     await this.faturaRepository.delete(id);
   }
 
-  findByCliente(nCliente: string, startDate?: string, endDate?: string) {
+  async findByCliente(nCliente: string, startDate?: string, endDate?: string) {
     const parsedStartDate = parseDate(startDate);
     const parsedEndDate = parseDate(endDate);
     const extraWhere =
@@ -84,11 +89,18 @@ export class FaturasService {
             ? { mesReferencia: LessThanOrEqual(parsedEndDate) }
             : {};
 
-    return this.faturaRepository.find({
-      where: {
-        nCliente,
-        ...extraWhere,
-      },
-    });
+    return this.faturaRepository
+      .find({
+        where: {
+          nCliente,
+          ...extraWhere,
+        },
+      })
+      .then((res) => {
+        if (res.length === 0) {
+          throw new NotFoundException('Could not find using these filter');
+        }
+        return res;
+      });
   }
 }
