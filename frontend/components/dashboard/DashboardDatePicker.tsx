@@ -44,7 +44,7 @@ const DashboardDatePicker = (props: Props) => {
                   )}
                 >
                   {field.value ? (
-                    format(field.value, "P")
+                    format(field.value, "dd/MM/yyyy")
                   ) : (
                     <span>{props.placeholder}</span>
                   )}
