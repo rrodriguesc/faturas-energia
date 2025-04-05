@@ -15,6 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { useCallback } from "react";
+import { Loader2 } from "lucide-react";
 import DashboardDatePicker from "./DashboardDatePicker";
 
 const formSchema = z.object({
@@ -28,11 +29,12 @@ const formSchema = z.object({
 export type FilterParams = z.infer<typeof formSchema>;
 
 export interface Props {
+  isLoading?: boolean;
   onSubmit?: (values: z.infer<typeof formSchema>) => void;
 }
 
 const DashboardFilter = (props: Props) => {
-  const { onSubmit } = props;
+  const { onSubmit, isLoading } = props;
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -64,7 +66,7 @@ const DashboardFilter = (props: Props) => {
               <FormItem>
                 <FormLabel>Nº do cliente</FormLabel>
                 <FormControl>
-                  <Input placeholder="shadcn" {...field} />
+                  <Input placeholder="Nº Cliente" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -82,7 +84,9 @@ const DashboardFilter = (props: Props) => {
             control={form.control}
             label="Data Final"
           />
-          <Button type="submit">Atualizar</Button>
+          <Button type="submit" disabled={isLoading}>
+            {isLoading ? <Loader2 className="animate-spin" /> : "Atualizar"}
+          </Button>
         </form>
       </Form>
     </Card>

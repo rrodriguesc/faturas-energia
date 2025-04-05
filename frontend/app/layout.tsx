@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import { Geist, Geist_Mono } from "next/font/google";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
+import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -36,6 +37,7 @@ export default async function RootLayout({
         <SidebarProvider defaultOpen={defaultOpen}>
           <AppSidebar />
           <SidebarInset>{children}</SidebarInset>
+          <Toaster />
         </SidebarProvider>
       </body>
     </html>

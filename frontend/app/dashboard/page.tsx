@@ -10,11 +10,13 @@ import ResultadosFinanceirosChart from "@/components/ResultadosFinanceirosChart"
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Fatura, getFaturasByClient } from "@/services/faturas";
+import { toast } from "sonner";
 import { useEffect, useMemo, useState } from "react";
 
 const Dashboard = () => {
   const [filterParams, setFilterParams] = useState<FilterParams>();
   const [faturasData, setFaturasData] = useState<Fatura[]>();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     if (filterParams?.nCliente) {
@@ -24,13 +26,17 @@ const Dashboard = () => {
         filterParams?.endDate
       )
         .then((data) => setFaturasData(data))
-        .catch((err) =>
+        .catch((err) => {
           console.error(
             "Could not get faturas for client: ",
             filterParams.nCliente,
             err
-          )
-        );
+          );
+          toast.error("Não foi possível acessar as informações solicitadas", {
+            closeButton: true,
+          });
+        })
+        .finally(() => setIsLoading(false));
     }
   }, [filterParams]);
 
@@ -95,7 +101,13 @@ const Dashboard = () => {
       </header>
       <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
         <Separator className="my-2" />
-        <DashboardFilter onSubmit={(values) => setFilterParams(values)} />
+        <DashboardFilter
+          isLoading={isLoading}
+          onSubmit={(values) => {
+            setFilterParams(values);
+            setIsLoading(true);
+          }}
+        />
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {energiaConsumida && (
             <DashboardTotal
