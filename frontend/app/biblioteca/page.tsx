@@ -56,6 +56,8 @@ const Biblioteca = () => {
             <DataTable
               columns={columns}
               data={data.filter((fatura) => fatura.year === selectedYear)}
+              fileterField="nCliente"
+              filterPlaceholder="Filtrar por Nº Cliente"
             />
           </div>
         )}
