@@ -20,7 +20,7 @@ import DashboardDatePicker from "./DashboardDatePicker";
 
 const formSchema = z.object({
   nCliente: z.string().min(4, {
-    message: "Numero do cliente must be at least 4 characters.",
+    message: "Numero do cliente deve ter pelo menos 4 caracteres",
   }),
   startDate: z.date().optional(),
   endDate: z.date().optional(),
