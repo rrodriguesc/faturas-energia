@@ -14,7 +14,7 @@ const getByLine = (lines: string[], initialText: string) => {
 
 const getQtdValorByRegex = (text: string, initialText: string) => {
   const re = new RegExp(
-    `${initialText}\\s*kWh\\s*(\\d+)\\s*(?:[\\d,.]+)\\s*([\\d,.]+)`,
+    `${initialText}\\s*kWh\\s*(\\d+)\\s*(?:[\\d,.-]+)\\s*([\\d,.-]+)`,
     "gm"
   );
   const res = re.exec(text);
@@ -31,14 +31,15 @@ const getQtdValorByRegex = (text: string, initialText: string) => {
   };
 };
 
-const getNClient = (lines: string[]) => getByLine(lines, "Nº DO CLIENTE");
+export const getNClient = (lines: string[]) =>
+  getByLine(lines, "Nº DO CLIENTE");
 
-const getMesReferencia = (lines: string[]) => {
+export const getMesReferencia = (lines: string[]) => {
   const dateStr = getByLine(lines, "Referente a");
   return parse(dateStr, "MMM/yyyy", new Date(), { locale: ptBR });
 };
 
-const getEnergiaEletrica = (text: string) => {
+export const getEnergiaEletrica = (text: string) => {
   const { qtd, valor } = getQtdValorByRegex(text, "Energia Elétrica");
 
   return {
@@ -47,7 +48,7 @@ const getEnergiaEletrica = (text: string) => {
   };
 };
 
-const getEnergiaSCEEE = (text: string) => {
+export const getEnergiaSCEEE = (text: string) => {
   const { qtd, valor } = getQtdValorByRegex(text, "Energia SCEE s/ ICMS");
 
   return {
@@ -56,7 +57,7 @@ const getEnergiaSCEEE = (text: string) => {
   };
 };
 
-const getEnergiaCompensada = (text: string) => {
+export const getEnergiaCompensada = (text: string) => {
   const { qtd, valor } = getQtdValorByRegex(text, "Energia compensada GD I");
 
   return {
@@ -65,7 +66,7 @@ const getEnergiaCompensada = (text: string) => {
   };
 };
 
-const getContribuicaoMunicipal = (text: string) => {
+export const getContribuicaoMunicipal = (text: string) => {
   const re = new RegExp("Contrib Ilum Publica Municipal\\s*([\\d,]+)", "gm");
   const res = re.exec(text);
   return parseFloat(res[1].replace(",", "."));

@@ -5,14 +5,17 @@
   "main": "index.js",
   "scripts": {
     "build": "npx tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npx jest"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {
+    "@jest/globals": "^29.7.0",
+    "@types/jest": "^29.5.14",
     "@types/pdf-parse": "^1.1.4",
+    "ts-jest": "^29.3.1",
     "typescript": "^5.8.2"
   },
   "bin": {
