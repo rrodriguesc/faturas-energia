@@ -45,7 +45,9 @@ const Biblioteca = () => {
               className="w-full"
               type="single"
               value={`${selectedYear}`}
-              onValueChange={(value) => setSelectedYear(parseInt(value))}
+              onValueChange={(value) =>
+                value && setSelectedYear(parseInt(value))
+              }
             >
               {years?.map((year) => (
                 <ToggleGroupItem key={year} value={`${year}`}>
