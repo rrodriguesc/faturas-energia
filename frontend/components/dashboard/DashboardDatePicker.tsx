@@ -1,5 +1,6 @@
 "use client";
 import { format } from "date-fns";
+import { XCircle } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -50,6 +51,15 @@ const DashboardDatePicker = (props: Props) => {
                 </Button>
               </FormControl>
             </PopoverTrigger>
+            {field.value && (
+              <Button
+                className="absolute translate-y-1/2"
+                variant="ghost"
+                onClick={() => field.onChange()}
+              >
+                <XCircle />
+              </Button>
+            )}
             <PopoverContent className="w-auto p-0" align="start">
               <Calendar
                 mode="single"
